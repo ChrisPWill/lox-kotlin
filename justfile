@@ -1,0 +1,63 @@
+set shell := ["bash", "-uc"]
+
+# Colors for output
+cyan := `tput setaf 6`
+green := `tput setaf 2`
+yellow := `tput setaf 3`
+reset := `tput sgr0`
+
+# List all available commands
+default:
+    @just --list
+
+# Configure the project with CMake
+configure-debug:
+    @printf "{{cyan}}==> Configuring with CMake (using ccache)...{{reset}}\n"
+    @cmake -B build -G Ninja \
+        -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+        -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+        -DCMAKE_BUILD_TYPE=Debug \
+        --log-level=NOTICE
+    @ln -sf build/compile_commands.json .
+
+configure-release:
+    @printf "{{cyan}}==> Configuring with CMake (using ccache)...{{reset}}\n"
+    @cmake -B build -G Ninja \
+        -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+        -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+        -DCMAKE_BUILD_TYPE=Release \
+        --log-level=NOTICE
+    @ln -sf build/compile_commands.json .
+
+# Build the project
+build: configure-debug
+    @printf "{{cyan}}==> Building project ({{yellow}}debug{{cyan}})...{{reset}}\n"
+    @cmake --build build
+
+build-release: configure-release
+    @printf "{{cyan}}==> Building project...{{reset}}\n"
+    @cmake --build build
+
+# Build and run the project
+run: build
+    @printf "{{green}}==> Running executable...{{reset}}\n"
+    @./build/my_project
+
+# Clean build artifacts
+clean:
+    @printf "{{yellow}}==> Cleaning build and cache artifacts...{{reset}}\n"
+    @rm -rf build/
+
+# Run static analysis
+check: configure-debug build
+    @printf "{{cyan}}==> Running Cppcheck (cached)...{{reset}}\n"
+    @mkdir -p build/cppcheck
+    @cppcheck --enable=all --std=c++26 --suppress=missingIncludeSystem --quiet --cppcheck-build-dir=build/cppcheck src/
+    @printf "{{cyan}}==> Running Clang-Tidy (parallel)...{{reset}}\n"
+    @find src/ -name "*.cpp" | xargs -P $(nproc) -I {} clang-tidy {} -p build --quiet -- ${NIX_CFLAGS_COMPILE:-}
+    @printf "{{green}}==> All checks passed!{{reset}}\n"
+
+# Format all source files
+format:
+    @printf "{{cyan}}==> Formatting project with treefmt...{{reset}}\n"
+    @treefmt
