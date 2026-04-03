@@ -11,9 +11,23 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Example: Adding a library (e.g., fmt)
 # find_package(fmt REQUIRED)
+find_package(doctest REQUIRED)
 
 # Source files
 add_executable(my_project src/main.cpp)
+
+# Enable testing
+enable_testing()
+
+# Create a test executable
+add_executable(unit_tests
+    tests/test_main.cpp
+    tests/example_test.cpp
+)
+target_link_libraries(unit_tests PRIVATE doctest::doctest)
+
+# Register the test executable with CTest
+add_test(NAME tests COMMAND unit_tests)
 
 # Example: Linking a library
 # target_link_libraries(my_project PRIVATE fmt::fmt)

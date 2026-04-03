@@ -12,8 +12,6 @@ Checks: >
   performance-*,
   portability-*,
   readability-*,
-  -cppcoreguidelines-avoid-magic-numbers,
-  -readability-magic-numbers
 
 # All warnings are treated as errors to ensure a clean build.
 WarningsAsErrors: '*'

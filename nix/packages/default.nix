@@ -17,6 +17,7 @@ pkgs.stdenv.mkDerivation {
   ];
 
   buildInputs = with pkgs; [
+    doctest
     # Add library dependencies here (e.g., fmt, boost, openssl)
   ];
 

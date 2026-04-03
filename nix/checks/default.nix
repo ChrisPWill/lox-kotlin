@@ -25,6 +25,7 @@ pkgs.stdenv.mkDerivation {
 
   buildInputs = with pkgs; [
     llvmPackages.libcxx
+    doctest
   ];
 
   dontConfigure = true;
@@ -33,6 +34,7 @@ pkgs.stdenv.mkDerivation {
 
   buildPhase = ''
     just check
+    just test
   '';
 
   installPhase = ''
