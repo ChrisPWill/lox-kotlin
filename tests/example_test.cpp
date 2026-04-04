@@ -14,25 +14,27 @@ private:
   std::shared_ptr<DLinkedNode> current;
 
 public:
-  int get() { return current->data; }
+  // Indirection operator
+  int &operator*() const { return current->data; }
+  // Member access operator
+  int *operator->() const { return &(current->data); }
 
-  // TODO: Improve signature of this for chaining
-  bool next() {
-    if (current->next == nullptr) {
-      return false;
+  bool operator==(const DLinkedIterator &other) const = default;
+
+  DLinkedIterator &operator++() {
+    if (current) {
+      current = current->next;
     }
 
-    current = current->next;
-    return true;
+    return *this;
   }
 
-  bool prev() {
-    if (current->prev.lock() == nullptr) {
-      return false;
+  DLinkedIterator &operator--() {
+    if (current) {
+      current = current->prev.lock();
     }
 
-    current = current->next;
-    return true;
+    return *this;
   }
 
   explicit DLinkedIterator(std::shared_ptr<DLinkedNode> current) {
@@ -46,8 +48,8 @@ private:
   std::shared_ptr<DLinkedNode> tail;
 
 public:
-  DLinkedIterator startIterator() { return DLinkedIterator(head); }
-  DLinkedIterator endIterator() { return DLinkedIterator(tail); }
+  DLinkedIterator begin() { return DLinkedIterator(head); }
+  DLinkedIterator end() { return DLinkedIterator(nullptr); }
 
   void insertEnd(int val) {
     auto newNode = std::make_shared<DLinkedNode>(val);
@@ -62,17 +64,30 @@ public:
   }
 };
 
-TEST_CASE("testing the doubly linked list") {
+TEST_CASE("testing increment/decrement") {
   auto list = std::make_shared<DLinkedList>();
   list->insertEnd(123);
   list->insertEnd(345);
   list->insertEnd(678);
 
-  auto it = list->startIterator();
-  auto hasNext = it.next();
-  CHECK(hasNext);
-  CHECK(it.get() == 345);
-  hasNext = it.next();
-  CHECK(hasNext);
-  CHECK(it.get() == 678);
+  auto itr = list->begin();
+  CHECK(*itr == 123);
+  CHECK(*(++itr) == 345);
+  CHECK(*(--itr) == 123);
+  ++itr;
+  ++itr;
+  CHECK(*itr == 678);
+}
+
+TEST_CASE("test iterating through list") {
+  auto list = std::make_shared<DLinkedList>();
+  list->insertEnd(123);
+  list->insertEnd(345);
+  list->insertEnd(678);
+
+  int count = 0;
+  for (auto it = list->begin(); it != list->end(); ++it) {
+    count++;
+  }
+  CHECK(count == 3);
 }
