@@ -41,7 +41,7 @@ build-release: configure-release
 # Build and run the project
 run: build
     @printf "{{green}}==> Running executable...{{reset}}\n"
-    @./build/my_project
+    @./build/lox_interpreter
 
 # Run tests
 test: build

@@ -20,9 +20,9 @@ A modern C++ template managed with Nix and [Blueprint](https://github.com/numtid
 
 ## Renaming the Project
 
-To rename the project from `my_project` to your desired name, you can use a search-and-replace tool or run:
+To rename the project from `lox_interpreter` to your desired name, you can use a search-and-replace tool or run:
 ```bash
-grep -rl "my_project" . | xargs sed -i "s/my_project/your_new_name/g"
+grep -rl "lox_interpreter" . | xargs sed -i "s/lox_interpreter/your_new_name/g"
 ```
 
 ## Adding Dependencies
@@ -43,7 +43,7 @@ To add a new library dependency (e.g., `fmt`):
 
     ```cmake
     find_package(fmt REQUIRED)
-    target_link_libraries(my_project PRIVATE fmt::fmt)
+    target_link_libraries(lox_interpreter PRIVATE fmt::fmt)
     ```
 
 3.  **Update the lockfile:**

@@ -3,7 +3,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 cmake_minimum_required(VERSION 3.10)
-project(my_project VERSION 1.0 LANGUAGES CXX)
+project(lox_interpreter VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 26)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -14,7 +14,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 find_package(doctest REQUIRED)
 
 # Source files
-add_executable(my_project src/main.cpp)
+add_executable(lox_interpreter src/main.cpp)
 
 # Enable testing
 enable_testing()
@@ -30,13 +30,13 @@ target_link_libraries(unit_tests PRIVATE doctest::doctest)
 add_test(NAME tests COMMAND unit_tests)
 
 # Example: Linking a library
-# target_link_libraries(my_project PRIVATE fmt::fmt)
+# target_link_libraries(lox_interpreter PRIVATE fmt::fmt)
 
 # Example: enable all warnings
 if(MSVC)
-    target_compile_options(my_project PRIVATE /W4)
+    target_compile_options(lox_interpreter PRIVATE /W4)
 else()
-    target_compile_options(my_project PRIVATE -Wall -Wextra -Wpedantic)
+    target_compile_options(lox_interpreter PRIVATE -Wall -Wextra -Wpedantic)
 endif()
 
-install(TARGETS my_project DESTINATION bin)
+install(TARGETS lox_interpreter DESTINATION bin)

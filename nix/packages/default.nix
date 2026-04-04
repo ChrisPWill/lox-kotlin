@@ -1,6 +1,6 @@
 {pkgs, ...}:
 pkgs.stdenv.mkDerivation {
-  pname = "my_project";
+  pname = "lox_interpreter";
   version = "1.0";
 
   src = pkgs.lib.cleanSourceWith {
