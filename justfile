@@ -39,9 +39,9 @@ build-release: configure-release
     @cmake --build build
 
 # Build and run the project
-run: build
+run scriptname="": build
     @printf "{{green}}==> Running executable...{{reset}}\n"
-    @./build/lox_interpreter
+    @./build/lox_interpreter {{scriptname}}
 
 # Run tests
 test: build
