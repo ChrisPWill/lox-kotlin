@@ -60,7 +60,7 @@ check: configure-debug build
     @cppcheck --inline-suppr --enable=all --std=c++26 --suppress=missingIncludeSystem --quiet --cppcheck-build-dir=build/cppcheck src/
     @cppcheck --enable=warning,performance,portability --std=c++26 --suppress=missingIncludeSystem --quiet --cppcheck-build-dir=build/cppcheck tests/
     @printf "{{cyan}}==> Running Clang-Tidy (parallel)...{{reset}}\n"
-    @find src/ tests/ -name "*.cpp" | xargs -P $(nproc) -I {} clang-tidy {} -p build --quiet -- ${NIX_CFLAGS_COMPILE:-}
+    @find src/ tests/ -name "*.cpp" | xargs -P $(nproc) -I {} clang-tidy {} -p build --quiet --extra-arg=-std=c++26 -- ${NIX_CFLAGS_COMPILE:-}
     @printf "{{green}}==> All checks passed!{{reset}}\n"
 
 # Format all source files

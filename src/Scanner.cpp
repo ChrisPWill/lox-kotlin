@@ -16,7 +16,7 @@ public:
   explicit Scanner(std::string_view source) : source(source) {}
 
   std::list<Token> scanTokens() {
-    std::istringstream stringStream(this->source);
+    std::istringstream stringStream((std::string(this->source)));
     std::string word;
     std::list<Token> tokens;
     while (stringStream >> word) {
