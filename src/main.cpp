@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <filesystem>
+#include <format>
 #include <fstream>
 #include <iostream>
 #include <span>
@@ -8,11 +9,19 @@
 
 #include <sysexits.h>
 
+import Scanner;
+
 namespace fs = std::filesystem;
 
-void run(const std::string &source) { std::cout << source << "\n"; }
+void run(const std::string &source) {
+  Scanner scanner(source);
+  auto tokens = scanner.scanTokens();
+  for (const auto &token : tokens) {
+    std::cout << token.content << "\n";
+  }
+}
 
-std::ifstream openFileOrExit(std::string path) {
+std::ifstream openFileOrExit(const std::string &path) {
   fs::path filePath(path);
   std::ifstream file(filePath);
 
@@ -36,7 +45,7 @@ void runPrompt() {
   while (true) {
     std::string readLine;
     std::getline(std::cin, readLine);
-    if (readLine == "") {
+    if (readLine.empty()) {
       break;
     }
     run(readLine);

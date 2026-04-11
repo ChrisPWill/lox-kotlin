@@ -15,7 +15,13 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 find_package(doctest REQUIRED)
 
 # Source files
-add_executable(lox_interpreter src/main.cpp)
+add_executable(lox_interpreter)
+target_sources(lox_interpreter
+    PRIVATE
+        src/main.cpp
+    PUBLIC
+        FILE_SET CXX_MODULES FILES src/Scanner.cpp
+)
 
 # Enable testing
 enable_testing()
