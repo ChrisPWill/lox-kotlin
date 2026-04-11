@@ -1,4 +1,6 @@
+#include "Scanner.hpp"
 #include <cstdlib>
+#include <exception>
 #include <filesystem>
 #include <format>
 #include <fstream>
@@ -6,14 +8,13 @@
 #include <span>
 #include <sstream>
 #include <string>
+#include <string_view>
 
 #include <sysexits.h>
 
-import Scanner;
-
 namespace fs = std::filesystem;
 
-void run(const std::string &source) {
+void run(std::string_view source) {
   Scanner scanner(source);
   auto tokens = scanner.scanTokens();
   for (const auto &token : tokens) {

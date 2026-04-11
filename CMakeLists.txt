@@ -2,12 +2,11 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build" FORCE)
 endif()
 
-cmake_minimum_required(VERSION 4.1)
+cmake_minimum_required(VERSION 3.20)
 project(lox_interpreter VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 26)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_SCAN_FOR_MODULES ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Example: Adding a library (e.g., fmt)
@@ -15,13 +14,11 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 find_package(doctest REQUIRED)
 
 # Source files
-add_executable(lox_interpreter)
-target_sources(lox_interpreter
-    PRIVATE
-        src/main.cpp
-    PUBLIC
-        FILE_SET CXX_MODULES FILES src/Scanner.cpp
+add_executable(lox_interpreter
+    src/main.cpp
+    src/Scanner.cpp
 )
+target_include_directories(lox_interpreter PRIVATE src)
 
 # Enable testing
 enable_testing()
