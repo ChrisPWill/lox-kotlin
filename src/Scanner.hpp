@@ -10,6 +10,7 @@ struct Token {
 };
 
 class Scanner {
+private:
   std::string_view source;
 
 public:
