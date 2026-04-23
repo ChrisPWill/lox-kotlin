@@ -10,60 +10,38 @@ reset := `tput sgr0`
 default:
     @just --list
 
-# Configure the project with CMake
-configure-debug:
-    @printf "{{cyan}}==> Configuring with CMake (using ccache)...{{reset}}\n"
-    @cmake -B build -G Ninja \
-        -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-        -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-        -DCMAKE_BUILD_TYPE=Debug \
-        --log-level=NOTICE
-    @ln -sf build/compile_commands.json .
-
-configure-release:
-    @printf "{{cyan}}==> Configuring with CMake (using ccache)...{{reset}}\n"
-    @cmake -B build -G Ninja \
-        -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-        -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-        -DCMAKE_BUILD_TYPE=Release \
-        --log-level=NOTICE
-    @ln -sf build/compile_commands.json .
-
 # Build the project
-build: configure-debug
-    @printf "{{cyan}}==> Building project ({{yellow}}debug{{cyan}})...{{reset}}\n"
-    @cmake --build build
-
-build-release: configure-release
-    @printf "{{cyan}}==> Building project...{{reset}}\n"
-    @cmake --build build
+build:
+    @printf "{{cyan}}==> Building project with Gradle...{{reset}}\n"
+    gradle build
 
 # Build and run the project
-run scriptname="": build
+run scriptname="":
     @printf "{{green}}==> Running executable...{{reset}}\n"
-    @./build/lox_interpreter {{scriptname}}
+    if [ -n "{{scriptname}}" ]; then \
+        gradle run --args="{{scriptname}}"; \
+    else \
+        gradle run; \
+    fi
 
 # Run tests
-test: build
+test:
     @printf "{{cyan}}==> Running tests...{{reset}}\n"
-    @cd build && ctest --output-on-failure
+    gradle test
 
 # Clean build artifacts
 clean:
     @printf "{{yellow}}==> Cleaning build and cache artifacts...{{reset}}\n"
-    @rm -rf build/
+    gradle clean
+    rm -rf build/ .gradle/
 
 # Run static analysis
-check: configure-debug build
-    @printf "{{cyan}}==> Running Cppcheck (cached)...{{reset}}\n"
-    @mkdir -p build/cppcheck
-    @cppcheck --inline-suppr --enable=all --std=c++26 --suppress=missingIncludeSystem --quiet --cppcheck-build-dir=build/cppcheck src/
-    @cppcheck --enable=warning,performance,portability --std=c++26 --suppress=missingIncludeSystem --quiet --cppcheck-build-dir=build/cppcheck tests/
-    @printf "{{cyan}}==> Running Clang-Tidy (parallel)...{{reset}}\n"
-    @find src/ tests/ -name "*.cpp" | xargs -P $(nproc) -I {} clang-tidy {} -p build --quiet --extra-arg=-std=c++26 -- ${NIX_CFLAGS_COMPILE:-}
+check:
+    @printf "{{cyan}}==> Running Gradle checks...{{reset}}\n"
+    gradle check
     @printf "{{green}}==> All checks passed!{{reset}}\n"
 
 # Format all source files
 format:
     @printf "{{cyan}}==> Formatting project with treefmt...{{reset}}\n"
-    @treefmt
+    treefmt

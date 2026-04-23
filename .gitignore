@@ -4,15 +4,15 @@ result
 
 # Build
 build/
-bin/
-obj/
-*.o
-*.a
-*.so
-*.out
+.gradle/
+*.jar
+*.class
+kls_database.db
+*.log
 
 # Editor
 .vscode/
-.clangd/
+.idea/
+*.iml
 .cache/
-compile_commands.json
+.jj/

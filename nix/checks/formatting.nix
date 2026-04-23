@@ -12,6 +12,6 @@
   programs.shfmt.enable = true; # shell
   programs.taplo.enable = true; # toml
   programs.rustfmt.enable = true; # rust
-  programs.clang-format.enable = true; # cpp, h
+  programs.ktlint.enable = true; # kotlin
 }).config.build.check
 inputs.self

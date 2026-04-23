@@ -1,48 +1,32 @@
 {pkgs, ...}:
-pkgs.mkShell.override {stdenv = pkgs.llvmPackages.libcxxStdenv;} {
+pkgs.mkShell {
   # Add build dependencies
   nativeBuildInputs = with pkgs; [
-    # Compilers
-    # (Included in libcxxStdenv: clang)
-
     # Build Systems
-    cmake
-    ninja
-    meson
-    gnumake
     just
-    ccache
+    ncurses # for tput
 
-    # LSP & Tools
-    clang-tools # Includes clangd, clang-format, clang-tidy
-
-    # Debuggers
-    gdb
-    lldb
+    # JVM & Tools
+    jdk21
+    kotlin
+    gradle
+    ktlint
 
     # Quality & Analysis
-    cppcheck
-    include-what-you-use
     treefmt
     alejandra
-    ncurses
-
-    # Documentation
-    doxygen
   ];
 
   buildInputs = with pkgs; [
-    doctest
-    # (Included in libcxxStdenv: libcxx)
-    # Add library dependencies here (e.g., fmt, boost, openssl)
+    # Add library dependencies here
   ];
 
   # Load custom bash code
   shellHook = ''
-    export PS1="(cpp) $PS1"
+    export PS1="(kotlin) $PS1"
     cyan=$(tput setaf 6)
     reset=$(tput sgr0)
-    echo -e "''${cyan}==> C++ Dev Environment - Available Commands:''${reset}"
+    echo -e "''${cyan}==> Kotlin Dev Environment - Available Commands:''${reset}"
     just --list
   '';
 }

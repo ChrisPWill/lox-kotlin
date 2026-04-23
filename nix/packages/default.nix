@@ -8,20 +8,21 @@ pkgs.stdenv.mkDerivation {
     filter = name: type: let
       baseName = baseNameOf (toString name);
     in
-      !(type == "directory" && (baseName == "build" || baseName == ".direnv"));
+      !(type == "directory" && (baseName == "build" || baseName == ".gradle" || baseName == ".direnv"));
   };
 
   nativeBuildInputs = with pkgs; [
-    cmake
-    ninja
+    gradle
+    jdk21
   ];
 
-  buildInputs = with pkgs; [
-    doctest
-    # Add library dependencies here (e.g., fmt, boost, openssl)
-  ];
+  buildPhase = ''
+    export GRADLE_USER_HOME=$(mktemp -d)
+    gradle installDist --no-daemon
+  '';
 
-  cmakeFlags = [
-    "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
-  ];
+  installPhase = ''
+    mkdir -p $out
+    cp -r build/install/lox_interpreter/* $out/
+  '';
 }

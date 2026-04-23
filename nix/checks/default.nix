@@ -8,31 +8,23 @@ pkgs.stdenv.mkDerivation {
     filter = name: type: let
       baseName = baseNameOf (toString name);
     in
-      !(type == "directory" && (baseName == "build" || baseName == ".direnv"));
+      !(type == "directory" && (baseName == "build" || baseName == ".gradle" || baseName == ".direnv"));
   };
 
   nativeBuildInputs = with pkgs; [
-    cmake
-    ninja
     just
-    ccache
-    ncurses
-    cppcheck
-    clang-tools # for clang-tidy
+    gradle
+    jdk21
+    ktlint
     treefmt
     alejandra
-  ];
-
-  buildInputs = with pkgs; [
-    llvmPackages.libcxx
-    doctest
+    ncurses
   ];
 
   dontConfigure = true;
 
-  env.CCACHE_DISABLE = "1";
-
   buildPhase = ''
+    export GRADLE_USER_HOME=$(mktemp -d)
     just check
     just test
   '';

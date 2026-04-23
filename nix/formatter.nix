@@ -7,5 +7,5 @@
   projectRootFile = "flake.nix";
 
   programs.alejandra.enable = true; # nix
-  programs.clang-format.enable = true; # cpp, h
+  programs.ktlint.enable = true; # kotlin
 }).config.build.wrapper
