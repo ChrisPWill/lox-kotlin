@@ -27,7 +27,12 @@ run scriptname="":
 # Run tests
 test:
     @printf "{{cyan}}==> Running tests...{{reset}}\n"
-    gradle test
+    gradle test --info
+
+# Run tests (watch mode)
+wtest:
+    @printf "{{cyan}}==> Running tests (watch)...{{reset}}\n"
+    gradle test --continuous --info
 
 # Clean build artifacts
 clean:
