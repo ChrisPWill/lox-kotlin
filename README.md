@@ -1,6 +1,6 @@
-# C++ Template
+# Kotlin Lox Interpreter
 
-A modern C++ template managed with Nix and [Blueprint](https://github.com/numtide/blueprint).
+A Kotlin implementation of the Lox interpreter from "Crafting Interpreters", managed with Nix and Gradle.
 
 ## Getting Started
 
@@ -9,48 +9,24 @@ A modern C++ template managed with Nix and [Blueprint](https://github.com/numtid
     Otherwise, run `nix develop`.
 
 2.  **Build the project:**
+
     ```bash
     just build
     ```
 
 3.  **Run the project:**
+
     ```bash
     just run
     ```
 
-## Renaming the Project
+4.  **Run tests:**
 
-To rename the project from `lox_interpreter` to your desired name, you can use a search-and-replace tool or run:
-```bash
-grep -rl "lox_interpreter" . | xargs sed -i "s/lox_interpreter/your_new_name/g"
-```
-
-## Adding Dependencies
-
-To add a new library dependency (e.g., `fmt`):
-
-1.  **Update Nix configuration:**
-    Edit `nix/packages/default.nix` and `nix/devshells/default.nix` to add the package to `buildInputs`.
-
-    ```nix
-    buildInputs = with pkgs; [
-      fmt
-    ];
-    ```
-
-2.  **Update CMake configuration:**
-    Edit `CMakeLists.txt` to find and link the library.
-
-    ```cmake
-    find_package(fmt REQUIRED)
-    target_link_libraries(lox_interpreter PRIVATE fmt::fmt)
-    ```
-
-3.  **Update the lockfile:**
-    If you added a new input to `flake.nix` (rare for standard libraries available in `nixpkgs`), or to ensure your environment is up-to-date:
     ```bash
-    nix flake update
+    just test
     ```
+
+    Tests are powered by [Kotest](https://kotest.io/).
 
 ## Project Structure
 
@@ -59,4 +35,4 @@ To add a new library dependency (e.g., `fmt`):
 - `flake.nix`: Entry point for Nix.
 - `justfile`: Command runner (shortcuts for common tasks).
 - `treefmt.toml`: Formatter configuration.
-- `.clang-tidy`: Static analysis configuration.
+- `build.gradle.kts`: Gradle build configuration.

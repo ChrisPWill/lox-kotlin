@@ -1,5 +1,5 @@
 {
-  description = "C++ development environment";
+  description = "Kotlin development environment";
 
   # Add all your dependencies here
   inputs = {

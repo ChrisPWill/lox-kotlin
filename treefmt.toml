@@ -3,7 +3,7 @@
 
 [formatter.kotlin]
 command = "ktlint"
-options = [ "--format" ]
+options = ["--format"]
 includes = ["*.kt", "*.kts", "**/*.kt", "**/*.kts"]
 
 [formatter.nix]
