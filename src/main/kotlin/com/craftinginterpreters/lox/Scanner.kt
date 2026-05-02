@@ -1,7 +1,5 @@
 package com.craftinginterpreters.lox
 
-import java.util.Scanner as JavaScanner
-
 class Scanner(
     private val source: String,
 ) {
@@ -38,7 +36,7 @@ class Scanner(
             scanToken()
         }
 
-        tokens.add(LoxToken(Eof, "", null, line))
+        tokens.add(LoxToken(Eof, "", line))
         return tokens
     }
 
@@ -162,14 +160,9 @@ class Scanner(
 
     private fun advance(): Char = source[current++]
 
-    private fun addToken(type: TokenType) = addToken(type, null)
-
-    private fun addToken(
-        type: TokenType,
-        literal: Any?,
-    ) {
+    private fun addToken(type: TokenType) {
         val text = source.substring(start, current)
-        tokens.add(LoxToken(type, text, literal, line))
+        tokens.add(LoxToken(type, text, line))
     }
 
     private fun string() {
@@ -187,12 +180,12 @@ class Scanner(
         advance()
 
         val value = source.substring(start + 1, current - 1)
-        addToken(LoxString(value), value)
+        addToken(LoxString(value))
     }
 
-    private fun isAlpha(c: Char) = (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_'
+    private fun isAlpha(char: Char) = char.isLetter() || char == '_'
 
-    private fun isDigit(char: Char) = """\d""".toRegex().matches(char.toString())
+    private fun isDigit(char: Char) = char.isDigit()
 
     private fun isAlphaNumeric(char: Char) = isAlpha(char) || isDigit(char)
 
@@ -206,7 +199,7 @@ class Scanner(
             while (isDigit(peek())) advance()
         }
         val value = source.substring(start, current).toDouble()
-        addToken(Number(value), value)
+        addToken(Number(value))
     }
 
     private fun identifier() {
