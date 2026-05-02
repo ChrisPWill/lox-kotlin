@@ -5,6 +5,7 @@ result
 # Build
 build/
 .gradle/
+.kotlin/
 *.jar
 *.class
 kls_database.db

@@ -27,12 +27,12 @@ run scriptname="":
 # Run tests with Kotest
 test:
     @printf "{{cyan}}==> Running Kotest tests...{{reset}}\n"
-    gradle test --info
+    gradle test
 
 # Run tests with Kotest (watch mode)
 wtest:
     @printf "{{cyan}}==> Running Kotest tests (watch)...{{reset}}\n"
-    gradle test --continuous --info
+    gradle test --continuous
 
 # Clean build artifacts
 clean:
