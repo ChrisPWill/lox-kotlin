@@ -8,10 +8,13 @@ class ScannerTest :
         "test scan tokens" {
             val scanner = Scanner("var x = 123;")
             val tokens = scanner.scanTokens()
-            tokens.size shouldBe 4
-            tokens[0].content shouldBe "var"
-            tokens[1].content shouldBe "x"
-            tokens[2].content shouldBe "="
-            tokens[3].content shouldBe "123;"
+            tokens.size shouldBe 6
+            tokens[0].lexeme shouldBe "var"
+            tokens[1].lexeme shouldBe "x"
+            tokens[2].lexeme shouldBe "="
+            tokens[3].lexeme shouldBe "123"
+            tokens[4].lexeme shouldBe ";"
+            tokens[5].type shouldBe Eof
+            tokens[5].lexeme shouldBe ""
         }
     })

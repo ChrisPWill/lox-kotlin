@@ -1,8 +1,8 @@
 import com.craftinginterpreters.lox.TokenType
 
-data class Token(
+data class LoxToken(
     val type: TokenType,
     val lexeme: String,
-    val literal: Any,
+    val literal: Any?,
     val line: Int,
 )

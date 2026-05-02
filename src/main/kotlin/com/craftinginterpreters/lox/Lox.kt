@@ -37,7 +37,7 @@ object Lox {
         val scanner = Scanner(source)
         val tokens = scanner.scanTokens()
         for (token in tokens) {
-            println(token.content)
+            println(token.lexeme)
         }
     }
 

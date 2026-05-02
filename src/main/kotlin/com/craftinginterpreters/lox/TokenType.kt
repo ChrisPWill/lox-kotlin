@@ -47,7 +47,7 @@ data class Identifier(
     val name: String,
 ) : TokenType()
 
-data class String(
+data class LoxString(
     val value: String,
 ) : TokenType()
 
