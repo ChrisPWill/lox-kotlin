@@ -1,6 +1,9 @@
+import com.adarshr.gradle.testlogger.theme.ThemeType
+
 plugins {
     kotlin("jvm") version "2.0.0"
     application
+    id("com.adarshr.test-logger") version "4.0.0"
 }
 
 group = "com.craftinginterpreters.lox"
@@ -16,13 +19,16 @@ dependencies {
     testImplementation("io.kotest:kotest-property:5.8.0")
 }
 
+testlogger {
+    theme = ThemeType.MOCHA
+    showStandardStreams = true
+    showPassedStandardStreams = false
+    showSkippedStandardStreams = false
+    showFailedStandardStreams = true
+}
+
 tasks.test {
     useJUnitPlatform()
-    testLogging {
-        events("passed", "skipped", "failed", "standardOut")
-        showStandardStreams = true
-        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
-    }
 }
 
 tasks.named<JavaExec>("run") {
