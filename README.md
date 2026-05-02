@@ -2,6 +2,8 @@
 
 A Kotlin implementation of the Lox interpreter from "Crafting Interpreters", managed with Nix and Gradle.
 
+Dual-purpose goal: learning how interpreters work, while also learning how to write Kotlin.
+
 ## Getting Started
 
 1.  **Initialize the project:**
