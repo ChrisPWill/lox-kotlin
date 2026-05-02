@@ -105,12 +105,7 @@ class Scanner(
                 if (match('/')) {
                     while (peek() != '\n' && !isAtEnd()) advance()
                 } else if (match('*')) {
-                    while (!(peek() == '*' && peekNext() == '/') && !isAtEnd()) {
-                        advance()
-                    }
-                    // Clear the "*/"
-                    advance()
-                    advance()
+                    skipMultiline()
                 } else {
                     addToken(Slash)
                 }
@@ -207,5 +202,25 @@ class Scanner(
         val text = source.substring(start, current)
         val type = Scanner.KEYWORDS.getOrElse(text) { Identifier(text) }
         addToken(type)
+    }
+
+    private fun skipMultiline() {
+        while (!(peek() == '*' && peekNext() == '/') && !isAtEnd()) {
+            val char = advance()
+            if (char == '\n') line++
+            if (char == '/' && peek() == '*') {
+                advance()
+                skipMultiline()
+            }
+        }
+
+        if (isAtEnd()) {
+            Lox.error(line, "Unterminated multiline comment")
+            return
+        }
+
+        // The closing "*/"
+        advance()
+        advance()
     }
 }

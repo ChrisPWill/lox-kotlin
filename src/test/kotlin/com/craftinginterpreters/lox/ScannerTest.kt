@@ -47,4 +47,28 @@ var x    =  123;
             tokens[0].lexeme shouldBe "var"
             tokens[1].lexeme shouldBe "x"
         }
+
+        "handles nested multiline comments" {
+            val scanner =
+                Scanner(
+                    """
+/*
+/* ignore this too */
+var y = 456;
+*/
+var x    =  123;
+""",
+                )
+            val tokens = scanner.scanTokens()
+            tokens.size shouldBe 6
+            tokens[0].lexeme shouldBe "var"
+            tokens[1].lexeme shouldBe "x"
+        }
+
+        "reports error on unterminated multiline comment" {
+            Lox.hadError = false
+            val scanner = Scanner("/* unterminated")
+            scanner.scanTokens()
+            Lox.hadError shouldBe true
+        }
     })
