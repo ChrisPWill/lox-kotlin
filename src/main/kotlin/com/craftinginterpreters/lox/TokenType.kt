@@ -1,49 +1,91 @@
 package com.craftinginterpreters.lox
 
-enum class TokenType {
-    LEFT_PAREN,
-    RIGHT_PAREN,
-    LEFT_BRACE,
-    RIGHT_BRACE,
-    COMMA,
-    DOT,
-    MINUS,
-    PLUS,
-    SEMICOLON,
-    SLASH,
-    STAR,
+sealed class TokenType
 
-    // One or two character tokens.
-    BANG,
-    BANG_EQUAL,
-    EQUAL,
-    EQUAL_EQUAL,
-    GREATER,
-    GREATER_EQUAL,
-    LESS,
-    LESS_EQUAL,
+object LeftParen : TokenType()
 
-    // Literals.
-    IDENTIFIER,
-    STRING,
-    NUMBER,
+object RightParen : TokenType()
 
-    // Keywords.
-    AND,
-    CLASS,
-    ELSE,
-    FALSE,
-    FUN,
-    FOR,
-    IF,
-    NIL,
-    OR,
-    PRINT,
-    RETURN,
-    SUPER,
-    THIS,
-    TRUE,
-    VAR,
-    WHILE,
-    EOF,
-}
+object LeftBrace : TokenType()
+
+object RightBrace : TokenType()
+
+object Comma : TokenType()
+
+object Dot : TokenType()
+
+object Minus : TokenType()
+
+object Plus : TokenType()
+
+object Semicolon : TokenType()
+
+object Slash : TokenType()
+
+object Star : TokenType()
+
+// One or two character tokens.
+
+object Bang : TokenType()
+
+object BangEqual : TokenType()
+
+object Equal : TokenType()
+
+object EqualEqual : TokenType()
+
+object Greater : TokenType()
+
+object GreaterEqual : TokenType()
+
+object Less : TokenType()
+
+object LessEqual : TokenType()
+
+// Literals.
+data class Identifier(
+    val name: String,
+) : TokenType()
+
+data class String(
+    val value: String,
+) : TokenType()
+
+data class Number(
+    val value: Double,
+) : TokenType()
+
+// Keywords.
+object And : TokenType()
+
+object Class : TokenType()
+
+object Else : TokenType()
+
+object False : TokenType()
+
+object Fun : TokenType()
+
+object For : TokenType()
+
+object If : TokenType()
+
+object Nil : TokenType()
+
+object Or : TokenType()
+
+object Print : TokenType()
+
+object Return : TokenType()
+
+object Super : TokenType()
+
+object This : TokenType()
+
+object True : TokenType()
+
+object Var : TokenType()
+
+object While : TokenType()
+
+object Eof : TokenType()
