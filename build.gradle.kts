@@ -33,6 +33,7 @@ tasks.test {
 
 tasks.named<JavaExec>("run") {
     standardInput = System.`in`
+    standardOutput = System.`out`
 }
 
 application { mainClass.set("com.craftinginterpreters.lox.LoxKt") }
