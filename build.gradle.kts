@@ -20,6 +20,10 @@ tasks.test {
     useJUnitPlatform()
 }
 
+tasks.named<JavaExec>("run") {
+    standardInput = System.`in`
+}
+
 application { mainClass.set("com.craftinginterpreters.lox.LoxKt") }
 
 kotlin { jvmToolchain(21) }

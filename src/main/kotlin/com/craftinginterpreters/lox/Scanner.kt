@@ -1,6 +1,5 @@
 package com.craftinginterpreters.lox
 
-import LoxToken
 import java.util.Scanner as JavaScanner
 
 class Scanner(

@@ -1,4 +1,4 @@
-import com.craftinginterpreters.lox.TokenType
+package com.craftinginterpreters.lox
 
 data class LoxToken(
     val type: TokenType,

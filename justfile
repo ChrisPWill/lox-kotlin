@@ -19,9 +19,9 @@ build:
 run scriptname="":
     @printf "{{green}}==> Running executable...{{reset}}\n"
     if [ -n "{{scriptname}}" ]; then \
-        gradle run --args="{{scriptname}}"; \
+        gradle run --console=plain -q --args="{{scriptname}}"; \
     else \
-        gradle run; \
+        gradle run --console=plain -q; \
     fi
 
 # Run tests with Kotest

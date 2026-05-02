@@ -25,6 +25,7 @@ object Lox {
     fun runPrompt() {
         val scanner = InputScanner(System.`in`)
         while (true) {
+            print("> ")
             if (!scanner.hasNextLine()) break
             val line = scanner.nextLine()
             if (line.isEmpty()) break
