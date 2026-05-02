@@ -106,6 +106,13 @@ class Scanner(
             '/' -> {
                 if (match('/')) {
                     while (peek() != '\n' && !isAtEnd()) advance()
+                } else if (match('*')) {
+                    while (!(peek() == '*' && peekNext() == '/') && !isAtEnd()) {
+                        advance()
+                    }
+                    // Clear the "*/"
+                    advance()
+                    advance()
                 } else {
                     addToken(Slash)
                 }
@@ -197,7 +204,6 @@ class Scanner(
             advance()
 
             while (isDigit(peek())) advance()
-
         }
         val value = source.substring(start, current).toDouble()
         addToken(Number(value), value)
