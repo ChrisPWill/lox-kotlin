@@ -17,4 +17,18 @@ class ScannerTest :
             tokens[5].type shouldBe Eof
             tokens[5].lexeme shouldBe ""
         }
+
+        "handles newlines and comments" {
+            val scanner =
+                Scanner(
+                    """
+// Test
+var x    =  123;
+""",
+                )
+            val tokens = scanner.scanTokens()
+            tokens.size shouldBe 6
+            tokens[0].lexeme shouldBe "var"
+            tokens[1].lexeme shouldBe "x"
+        }
     })
