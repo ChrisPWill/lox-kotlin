@@ -71,4 +71,44 @@ var x    =  123;
             scanner.scanTokens()
             Lox.hadError shouldBe true
         }
+
+        "scans comparison operators" {
+            val scanner =
+                Scanner(
+                    """if (a < b and a <= b or c == d or c != d) {
+                        print "HELP ME";
+                    }""",
+                )
+            val tokens = scanner.scanTokens()
+            print(tokens)
+            tokens.size shouldBe 24
+            val lexemes = tokens.map { it.lexeme }
+            lexemes shouldBe
+                listOf(
+                    "if",
+                    "(",
+                    "a",
+                    "<",
+                    "b",
+                    "and",
+                    "a",
+                    "<=",
+                    "b",
+                    "or",
+                    "c",
+                    "==",
+                    "d",
+                    "or",
+                    "c",
+                    "!=",
+                    "d",
+                    ")",
+                    "{",
+                    "print",
+                    "\"HELP ME\"",
+                    ";",
+                    "}",
+                    "",
+                )
+        }
     })
