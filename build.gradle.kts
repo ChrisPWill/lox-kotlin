@@ -38,4 +38,33 @@ tasks.named<JavaExec>("run") {
 
 application { mainClass.set("com.craftinginterpreters.lox.LoxKt") }
 
+val generateAstScripts =
+    tasks.register<CreateStartScripts>("generateAstScripts") {
+        mainClass.set("com.craftinginterpreters.tool.GenerateAstKt")
+        applicationName = "generateAst"
+        outputDir = file(layout.buildDirectory.dir("scripts-ast"))
+
+        // Use the classpath from the main startScripts task
+        val startScripts = tasks.named<CreateStartScripts>("startScripts").get()
+        classpath = startScripts.classpath
+    }
+
+tasks.register<JavaExec>("generateAst") {
+    group = "tool"
+    mainClass.set("com.craftinginterpreters.tool.GenerateAstKt")
+    classpath = sourceSets["main"].runtimeClasspath
+    args("src/main/kotlin/com/craftinginterpreters/lox")
+}
+
+distributions {
+    main {
+        contents {
+            from(generateAstScripts) {
+                into("bin")
+                fileMode = 755
+            }
+        }
+    }
+}
+
 kotlin { jvmToolchain(21) }

@@ -24,6 +24,11 @@ run scriptname="":
         gradle run --console=plain -q; \
     fi
 
+# Generate AST types
+generate:
+    @printf "{{green}}==> Generating AST types...{{reset}}\n"
+    gradle generateAst
+
 # Run tests with Kotest
 test:
     @printf "{{cyan}}==> Running Kotest tests...{{reset}}\n"
