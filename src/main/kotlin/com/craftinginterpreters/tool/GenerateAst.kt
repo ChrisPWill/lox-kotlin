@@ -39,7 +39,12 @@ private fun defineAst(
         file.printWriter().use { writer ->
             writer.println("package com.craftinginterpreters.lox")
             writer.println()
-            writer.println("sealed class " + baseName)
+            defineVisitor(writer, baseName, types)
+            writer.println()
+            writer.println("sealed class " + baseName + " {")
+            writer.println("    abstract fun <R> accept(visitor: Visitor<R>): R")
+            writer.println("}")
+
             for (type in types) {
                 writer.println() // Blank space between each type (starting with sealed class)
                 val className = type.split(":")[0].trim()
@@ -52,6 +57,23 @@ private fun defineAst(
     } catch (exception: IOException) {
         return Result.failure(exception)
     }
+}
+
+private fun defineVisitor(
+    writer: PrintWriter,
+    baseName: String,
+    types: List<String>,
+) {
+    writer.println("interface Visitor<R> {")
+    for (i in types.indices) {
+        val javaType = types[i].split(":")[0].trim()
+        val typeName = javaTypeToKotlin(javaType)
+        if (i != 0) {
+            writer.println()
+        }
+        writer.println("    fun visit" + typeName + baseName + "(" + baseName.lowercase() + ": " + typeName + "): R")
+    }
+    writer.println("}")
 }
 
 private fun defineType(
@@ -70,7 +92,10 @@ private fun defineType(
         writer.print("    val " + name + ": " + type)
         writer.println(",")
     }
-    writer.println(") : " + baseName + "()")
+    writer.println(") : " + baseName + "() {")
+    //  Visitor pattern
+    writer.println("    override fun <R> accept(visitor: Visitor<R>): R = visitor.visit" + className + baseName + "(this)")
+    writer.println("}")
 }
 
 // Main purpose of this is to avoid having to rewrite AST definitions from
