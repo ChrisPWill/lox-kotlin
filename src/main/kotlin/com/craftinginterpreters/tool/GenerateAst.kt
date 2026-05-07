@@ -103,7 +103,7 @@ private fun defineType(
 private fun javaTypeToKotlin(type: String): String {
     val javaToKotlinMap =
         mapOf(
-            "Object" to "Any",
+            "Object" to "Any?",
             "Token" to "LoxToken",
         )
     return javaToKotlinMap.getOrDefault(type, type)
