@@ -61,7 +61,9 @@ tasks.register<JavaExec>("generateAst") {
     group = "tool"
     mainClass.set("com.craftinginterpreters.tool.GenerateAstKt")
     classpath = sourceSets["tool"].runtimeClasspath
-    args("src/main/kotlin/com/craftinginterpreters/lox")
+    project.findProperty("outputDir")?.toString()?.let {
+        args(it)
+    }
 }
 
 distributions {

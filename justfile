@@ -25,9 +25,9 @@ run scriptname="":
     fi
 
 # Generate AST types
-generate:
-    @printf "{{green}}==> Generating AST types...{{reset}}\n"
-    gradle generateAst
+generate output_dir="src/main/kotlin/com/craftinginterpreters/lox":
+    @printf "{{green}}==> Generating AST types in {{output_dir}}...{{reset}}\n"
+    gradle generateAst -PoutputDir="{{output_dir}}"
 
 # Run tests with Kotest
 test:
